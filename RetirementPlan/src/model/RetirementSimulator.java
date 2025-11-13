@@ -21,24 +21,38 @@ public final class RetirementSimulator {
   * @return Future value of investment
   * @throws IllegalArgumentException if inputs are invalid
   */
- public static double fixedInvestor(double principal, double rate, int years) {
-     if (Double.isNaN(principal) || Double.isNaN(rate))
-         throw new IllegalArgumentException("Inputs must be numeric.");
-     if (Double.isInfinite(principal) || Double.isInfinite(rate))
-         throw new IllegalArgumentException("Inputs must be finite.");
-     if (principal < 0)
-         throw new IllegalArgumentException("Principal must be non-negative.");
-     if (years < 0)
-         throw new IllegalArgumentException("Years must be non-negative.");
-     if (rate <= -1.0)
-         throw new IllegalArgumentException("Rate cannot be less than -100%.");
+public static double fixedInvestor(double principal, double rate, int years) {
+	 
+	    // Step 1: Input validation (using if statements)
+	    if (principal < 0) {
+	        throw new IllegalArgumentException("Principal must be non-negative.");
+	    }
+	    if (years < 0) {
+	        throw new IllegalArgumentException("Years must be non-negative.");
+	    }
+	    if (rate <= -1.0) {
+	        throw new IllegalArgumentException("Rate cannot be less than -100%.");
+	    }
 
-     double futureValue = principal * Math.pow(1.0 + rate, years);
+	    
+	    //double futureValue = principal * Math.pow(1.0 + rate, years);
 
-     if (Double.isInfinite(futureValue) || Double.isNaN(futureValue))
-         throw new ArithmeticException("Computation overflow or invalid result.");
+	    // Step 2: Initialize result variable
+	    double futureValue = principal;
 
-     return futureValue;
- }
+	    // Step 3: Simulate compounding using a simple loop (O(n))
+	    int currentYear = 0;  // loop counter
+	    while (currentYear < years) {
+	        // increase balance by rate each year
+	        futureValue = futureValue * (1 + rate);
+
+	        // move to next year
+	        currentYear++;
+	    }
+
+	    // Step 4: Return the result after all years
+	    return futureValue;
+	}
 }
+
 
