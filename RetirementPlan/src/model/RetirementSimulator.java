@@ -56,3 +56,64 @@ public static double fixedInvestor(double principal, double rate, int years) {
 }
 
 
+/* Stimulates the years a retirement fund would last while withdrawing a fixed amount each year and applying annual interest rate.
+	@param startingBalance intial amount in the retirement amount.
+	@param annualWithdrawl the fixed withdrawl for each year.
+	@param interestRate the annual growth interest rate. 
+	@return the number of years before the account is depleted. 
+*/
+
+
+public static int finallyRetired(double startingBalance,double annualWithdrawal, double interestRate){
+
+	// Validation of Inout
+	if ( startingBalance <0){
+		throw new IllegalArgumentException("Balance must not be a negative ");
+	}
+	if(annualWithdrawal<=0){
+		throw new IllegalArgumentException("Withdrawal amount must be greater than zero(0)");
+	}
+	if (interestRate <= -1.0)
+	{
+		throw new IllegalArgumentException("Grown rate cannot be less than -100%");
+	}
+	
+	//stimulation variables 
+
+	double currentBalance = startinBalance;
+	int duration =0;
+
+	double interestEarned; // interest gained this year
+	double postInterestBalance;// balance after interest
+	double postWithdrawal; // balance after annual withdrawl
+	
+	// Year by year stimulation 
+	while (currentBalance > 0){
+		//Calculates the interest for year 
+		interestEarned = currentBalance * interestRate;
+
+		//add interest to balance 
+		postInterestBalance = currentBalance + interestEarned;
+
+		// withdrawl amount subtract
+		postWithdrawal = postInterestBalance -annualWithdrawal ;
+
+		// Update current Balance 
+		currentBalance = postWithdrawl;
+
+		duration++; // years count 
+
+		// Stop progream once money finish
+		if (currentBalance <=0){
+			break;
+		}
+	}
+	return duration;
+}
+
+		
+
+
+
+
+
