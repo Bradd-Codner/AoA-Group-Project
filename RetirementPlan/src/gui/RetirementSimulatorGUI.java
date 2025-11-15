@@ -109,7 +109,7 @@ public class RetirementSimulatorGUI extends JFrame {
      panel.add(new JLabel("Rate %:"));
      panel.add(depletionRateField);
      JButton btn = new JButton("Calculate Depletion");
-     btn.addActionListener(e -> depletionResultLabel.setText("Depletion: Placeholder result (O(n))"));
+     btn.addActionListener(e -> onCalculateDepletion());
      panel.add(btn);
      panel.add(depletionResultLabel);
      return panel;
@@ -149,7 +149,11 @@ public class RetirementSimulatorGUI extends JFrame {
  private JPanel createControlPanel() {
      JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
      JButton calculateAll = new JButton("Calculate All");
-     calculateAll.addActionListener(e -> onCalculateFixed());
+     calculateAll.addActionListener(e -> {
+     onCalculateFixed();
+     onCalculateDepletion();
+     // Add calls for other calculations here
+	 });
      JButton close = new JButton("Close");
      close.addActionListener(e -> dispose());
      panel.add(calculateAll);
@@ -170,6 +174,23 @@ public class RetirementSimulatorGUI extends JFrame {
          fixedResultLabel.setText("Error: " + e.getMessage());
      }
  }
+ 
+ private void onCalculateDepletion() {
+	    try {
+	        double startingBalance = Double.parseDouble(depletionBalanceField.getText().trim());
+	        double annualWithdrawal = Double.parseDouble(depletionWithdrawField.getText().trim());
+	        double rate = Double.parseDouble(depletionRateField.getText().trim()) / 100.0;
+
+	        int years = RetirementSimulator.finallyRetired(startingBalance, annualWithdrawal, rate);
+
+	        depletionResultLabel.setText("Depletion: " + years + " years");
+	    } catch (NumberFormatException e) {
+	        depletionResultLabel.setText("Invalid input: numbers only");
+	    } catch (IllegalArgumentException | ArithmeticException e) {
+	        depletionResultLabel.setText("Error: " + e.getMessage());
+	    }
+	}
+
 
  public static void main(String[] args) {
      SwingUtilities.invokeLater(() -> new RetirementSimulatorGUI().setVisible(true));
