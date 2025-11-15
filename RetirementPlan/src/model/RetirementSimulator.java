@@ -62,11 +62,11 @@ public static double fixedInvestor(double principal, double rate, int years) {
 	@param interestRate the annual growth interest rate. 
 	@return the number of years before the account is depleted. 
 */
-
+// Methods notation O(n)
 
 public static int finallyRetired(double startingBalance,double annualWithdrawal, double interestRate){
 
-	// Validation of Inout
+	// Validation of Input
 	if ( startingBalance <0){
 		throw new IllegalArgumentException("Balance must not be a negative ");
 	}
@@ -112,6 +112,7 @@ public static int finallyRetired(double startingBalance,double annualWithdrawal,
 }
 
 		
+
 
 
 
